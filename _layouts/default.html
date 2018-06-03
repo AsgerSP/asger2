@@ -8,7 +8,14 @@
     {% include header.html %}
 
       <main>
-        {{ content }}
+          <div class="row">
+            <div class="columns medium-10">{{ content }}
+             
+            </div>
+            
+            <div class="columns medium-2">{% include sidebar.html %}</div>
+            </div>
+       
       </main>
 
     {% include footer.html %}

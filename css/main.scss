@@ -1,13 +1,18 @@
 ---
 ---
 
-$primary-color: green;
+$primary-color: darkgreen;
 $secondary-color: blue;
 $dropdownmenu-background: orange;
 
 @import 'foundation';
 @include foundation-everything;
 
+header {
+  .top-bar li>a {
+ color: black
+  }
+}
 main {
   @include grid-row;
   article {
@@ -23,6 +28,6 @@ main {
 
 footer {
   padding: 20px;
-  background-color: black;
+  background-color: darkgreen;
   color: white;
 }

@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Welcome to Jekyll!"
+subtitle: "This is a post about how jekyll can be used on how awesome it is"
 date:   2015-12-14 21:31:23 +0000
 categories: jekyll update
 ---

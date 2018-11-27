@@ -7,31 +7,109 @@ layout: default
   <h1 class="page-heading">Posts</h1>
 
   <ul class="post-list">
-    {% for post in site.posts %}
 
-    <div class="row">
-        <div class="columns small-12 medium-6">   
-      <li>
-        
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+      <h1>Latest Post</h1>
+
+    {% for post in site.posts limit:1 %}
+  
+    <div class="callout">
     
-        <h1>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h1>
-        <h3>
+      <div class="row" data-equalizer>
+
+   
+        
+        <!-- <div class="columns medium-12" style="border: 1px solid #466d98;" style="margin: 1.25rem auto"> -->
+          
+        <div class="columns medium-6">
+            <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+    
+            <h1>
+              <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+            </h1>
+            <h3>
+              <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.subtitle }}</a>
+            </h3>
+
+        </div>
+        <div class="columns medium-6">
+            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+
+
+        <!-- </div> -->
+      </div>
+    </div>
+    </div>
+
+    {% endfor %}
+
+    <h1>Recent Posts</h1>
+
+{% for post in site.posts offset:1 limit:2 %}
+
+<div class="row" data-equalizer>
+<div class="columns medium-6">
+
+<div class="callout" data-equalizer-watch>
+    
+    <div class="row">
+         
+      <!-- <div class="columns medium-12" style="border: 1px solid #466d98;" style="margin: 1.25rem auto"> -->
+        
+      <div class="columns medium-6">
+          <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+  
+          <h1>
+            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+          </h1>
+          <h3>
             <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.subtitle }}</a>
           </h3>
-      </li>
+
+      </div>
+      <div class="columns medium-6">
+          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+
+
+      <!-- </div> -->
+    
     </div>
-    <div class="columns small-12 medium-6">
+  </div>
+  </div>
+</div>
+
+{% endfor %}
+
+<!-- 
+
+  <div class="large-6 columns panel" id="leftcallout">   
+
+      <div class="callout success large" data-equalizer-watch>
+        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+    
+          <h1>
+            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+          </h1>
+          <h3>
+            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.subtitle }}</a>
+          </h3>
+ 
+    </div>
+  </div>
+
+  <div class="large-6 columns panel" id=rightcallout>
+      <div class="callout" data-equalizer-watch>
 
         <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
 
-    </div>
-</div>
-  {% endfor %}
-  </ul>
+      </div>     -->
 
+<!-- </div> -->
+
+
+  
+  
+
+
+</ul>
   <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
 </div>

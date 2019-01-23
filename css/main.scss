@@ -1,19 +1,25 @@
 ---
 ---
 
-$primary-color: darkgreen;
-$secondary-color: blue;
-$dropdownmenu-background: orange;
+$primary-color: rgb(251,81,11);
+$secondary-color:rgb(106,197,244);
+$blackish-color: rgb(9,43,43);
+$dropdownmenu-background: #ffa500;
 $success-color: #3adb76;
 
 @import 'foundation';
 @include foundation-everything;
 
-header {
-  .top-bar li>a {
- color: black
-  }
+// ------------
+// header
+// ----------
+
+.top-bar ul li>a {
+  color: $blackish-color;
 }
+
+//Main//
+
 main {
   @include grid-row;
   article {
@@ -27,15 +33,37 @@ main {
   }
 }
 
+.row.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.callout {
+  border-color: $blackish-color; 
+  border-radius: 5px;
+//   display: block;
+//   height: 150px;
+//   width: 100%;
+}
+
+
+$tooltip-bg: #3adb76;
+
+.tooltip {
+background: #3adb76 !important;
+}
+
+//Footer//
 footer {
   padding: 20px;
   background-color: $primary-color;
-  color: white;
+  color:$secondary-color;
 }
 
-.callout.success {
-  border: white; 
-}
+
+
+
+
 
 // #leftcallout.columns {
 //   padding-right: 0;  

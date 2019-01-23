@@ -1,19 +1,33 @@
 <header>
-  <nav class="top-bar">
+  <div id="header-d3">
+    <div class="row">
+      <div class="columns medium-4">
+        <p>This is some text</p>
+        <p>This is something else</p>
+      </div>
+      <div class="columns medium-8">
+  
+      <a id="include-d3">{% include D3/header.d3.html %}</a>
+      </div>
+    </div>
+
+  <div class="top-bar">
     <div class="top-bar-left">
-      <ul class="dropdown menu" data-dropdown-menu>
-        <li class="menu-text">Site Title</li>
-        <li class="has-submenu">
-          <a href="#">One</a>
-          <ul class="submenu menu vertical" data-submenu>
-            <li><a href="#">One</a></li>
-            <li><a href="#">Two</a></li>
-            <li><a href="#">Three</a></li>
-          </ul>
-        </li>
-        <li><a href="#">Two</a></li>
-        <li><a href="#">Three</a></li>
+      <ul class="menu">
+      <li class="menu-text">AproprosA</li>
       </ul>
     </div>
-  </nav>
+    
+    <div class="top-bar-right">
+        <ul class="menu">
+        <li>
+          <a href=#>Blog</a>
+        </li>  
+        <li>
+          <a href=#>Omkring</a>
+        </li>  
+        </ul>
+    </div>
+  </div>
+</div>
 </header>

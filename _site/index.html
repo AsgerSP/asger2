@@ -14,29 +14,87 @@
   <link rel="canonical" href="http://localhost:4000/">
   <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
   <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="/js/d3.min.js"></script>
 </head>
 
 
   <body>
 
     <header>
-  <nav class="top-bar">
+  <div id="header-d3">
+    <div class="row">
+      <div class="columns medium-4">
+        <p>This is some text</p>
+        <p>This is something else</p>
+      </div>
+      <div class="columns medium-8">
+  
+      <a id="include-d3"><!DOCTYPE html>
+<meta charset="utf-8">
+<canvas width="1000" height="200"></canvas>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+var canvas = document.querySelector("canvas"),
+    context = canvas.getContext("2d"),
+    width = canvas.width,
+    height = canvas.height,
+    tau = 2 * Math.PI;
+    
+var nodes = d3.range(100).map(function(i) {
+  return {
+    r: Math.random() * 14 + 4
+  };
+});
+
+var simulation = d3.forceSimulation(nodes)
+    .velocityDecay(0.2)
+    .force("x", d3.forceX().strength(0.002))
+    .force("y", d3.forceY().strength(0.002))
+    .force("collide", d3.forceCollide().radius(function(d) { return d.r + 0.5; }).iterations(2))
+    .on("tick", ticked);
+
+function ticked() {
+  context.clearRect(0, 0, width, height);
+  context.save();
+  context.translate(width / 2, height / 2);
+
+  context.beginPath();
+  nodes.forEach(function(d) {
+    context.moveTo(d.x + d.r, d.y);
+    context.arc(d.x, d.y, d.r, 0, tau);
+  });
+  context.fillStyle = "#ddd";
+  context.fill();
+  context.strokeStyle = "#333";
+  context.stroke();
+
+  context.restore();
+}
+
+</script></a>
+      </div>
+    </div>
+
+  <div class="top-bar">
     <div class="top-bar-left">
-      <ul class="dropdown menu" data-dropdown-menu>
-        <li class="menu-text">Site Title</li>
-        <li class="has-submenu">
-          <a href="#">One</a>
-          <ul class="submenu menu vertical" data-submenu>
-            <li><a href="#">One</a></li>
-            <li><a href="#">Two</a></li>
-            <li><a href="#">Three</a></li>
-          </ul>
-        </li>
-        <li><a href="#">Two</a></li>
-        <li><a href="#">Three</a></li>
+      <ul class="menu">
+      <li class="menu-text">AproprosA</li>
       </ul>
     </div>
-  </nav>
+    
+    <div class="top-bar-right">
+        <ul class="menu">
+        <li>
+          <a href=#>Blog</a>
+        </li>  
+        <li>
+          <a href=#>Omkring</a>
+        </li>  
+        </ul>
+    </div>
+  </div>
+</div>
 </header>
 
       <main>
@@ -54,12 +112,11 @@
 
     
   
-    <div class="callout">
-    
-      <div class="row" data-equalizer>
+    <div class="row">
+        <div class="columns large-12">
 
-   
-        
+        <div class="callout">
+            <div class="row">
         <!-- <div class="columns medium-12" style="border: 1px solid #466d98;" style="margin: 1.25rem auto"> -->
           
         <div class="columns medium-6">
@@ -74,42 +131,151 @@
 
         </div>
         <div class="columns medium-6">
-            <a class="post-link" href="/2016/12/23/lorem-ipsum-est.html">Lorem ipsum est</a>
+            <a class="post-link" href="/2016/12/23/lorem-ipsum-est.html"><div id="subdivision">
+    <input type="range" min="1" max="12" value="8">
+    <output name="subdivision"></output>
+  </div>
+  <style>
+  
+  #subdivision {
+    position: auto;
+    top: 20px;
+    left: 20px;
+  }
+  
+  #subdivision input {
+    position: auto;
+    width: 200px;
+  }
+  
+  </style>
+  
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://bl.ocks.org/mbostock/raw/3057239/d3.geodesic.min.js"></script>
+  
+  
+  
+  <script>
+  
+  var width = 100,
+      height = 50;
+  
+  var velocity = [.010, .005],
+      t0 = Date.now();
+  
+  var projection = d3.geo.orthographic()
+      .scale(height / 2 - 10);
+  
+  var canvas = d3.select("#subdivision").append("canvas")
+      .attr("width", width)
+      .attr("height", height);
+  
+  var context = canvas.node().getContext("2d");
+  
+  context.strokeStyle = "#000";
+  context.lineWidth = .5;
+  
+  var faces;
+  
+  var output = d3.select("output");
+  
+  var input = d3.select("input")
+      .on("input", function() { geodesic(+this.value); })
+      .on("change", function() { geodesic(+this.value); })
+      .each(function() { geodesic(+this.value); });
+  
+  d3.timer(function() {
+    var time = Date.now() - t0;
+    projection.rotate([time * velocity[0], time * velocity[1]]);
+    redraw();
+  });
+  
+  function redraw() {
+    context.clearRect(0, 0, width, height);
+  
+    faces.forEach(function(d) {
+      d.polygon[0] = projection(d[0]);
+      d.polygon[1] = projection(d[1]);
+      d.polygon[2] = projection(d[2]);
+      if (d.visible = d.polygon.area() > 0) {
+        context.fillStyle = d.fill;
+        context.beginPath();
+        drawTriangle(d.polygon);
+        context.fill();
+      }
+    });
+  
+    context.beginPath();
+    faces.forEach(function(d) {
+      if (d.visible) {
+        drawTriangle(d.polygon);
+      }
+    });
+    context.stroke();
+  }
+  
+  function drawTriangle(triangle) {
+    context.moveTo(triangle[0][0], triangle[0][1]);
+    context.lineTo(triangle[1][0], triangle[1][1]);
+    context.lineTo(triangle[2][0], triangle[2][1]);
+    context.closePath();
+  }
+  
+  function geodesic(subdivision) {
+    output.text(subdivision);
+  
+    faces = d3.geodesic.polygons(subdivision).map(function(d) {
+      d = d.coordinates[0];
+      d.pop(); // use an open polygon
+      d.fill = d3.hsl(d[0][0], 1, .5) + "";
+      d.polygon = d3.geom.polygon(d.map(projection));
+      return d;
+    });
+  
+    redraw();
+  }
+  
+  </script></a>
 
 
         <!-- </div> -->
       </div>
     </div>
-    </div>
-
+  </div>
+  </div>
+</div>
+ 
+    
     
 
     <h1>Recent Posts</h1>
 
 
 
-<div class="row" data-equalizer>
+<div class="row">
+<!-- <div class="row" data-equalizer> -->
 <div class="columns medium-6">
 
-<div class="callout" data-equalizer-watch>
+<div class="callout">
+<!-- <div class="callout" data-equalizer-watch> -->
     
     <div class="row">
          
       <!-- <div class="columns medium-12" style="border: 1px solid #466d98;" style="margin: 1.25rem auto"> -->
         
-      <div class="columns medium-6">
+      <div class="columns large-12">
           <span class="post-meta">Dec 23, 2015</span>
   
           <h1>
-            <a class="post-link" href="/2015/12/23/lorem-ipsum.html">Lorem ipsum</a>
+            <a class="post-link" href="/2015/12/23/lorem-ipsum.html">Post number uno</a>
           </h1>
           <h3>
-            <a class="post-link" href="/2015/12/23/lorem-ipsum.html"></a>
+            <a class="post-link" href="/2015/12/23/lorem-ipsum.html">This is a post about how jekyll can be used on how awesome it is 2. what if this line is longer than the other"</a>
           </h3>
 
       </div>
-      <div class="columns medium-6">
-          <a class="post-link" href="/2015/12/23/lorem-ipsum.html">Lorem ipsum</a>
+      <div class="columns large-12">
+          <a class="post-link" href="/2015/12/23/lorem-ipsum.html">Post number uno</a>
 
 
       <!-- </div> -->
@@ -119,18 +285,21 @@
   </div>
 </div>
 
+  
 
 
-<div class="row" data-equalizer>
+<div class="row">
+<!-- <div class="row" data-equalizer> -->
 <div class="columns medium-6">
 
-<div class="callout" data-equalizer-watch>
+<div class="callout">
+<!-- <div class="callout" data-equalizer-watch> -->
     
     <div class="row">
          
       <!-- <div class="columns medium-12" style="border: 1px solid #466d98;" style="margin: 1.25rem auto"> -->
         
-      <div class="columns medium-6">
+      <div class="columns large-12">
           <span class="post-meta">Dec 14, 2015</span>
   
           <h1>
@@ -141,7 +310,7 @@
           </h3>
 
       </div>
-      <div class="columns medium-6">
+      <div class="columns large-12">
           <a class="post-link" href="/jekyll/update/2015/12/14/welcome-to-jekyll.html">Welcome to Jekyll!</a>
 
 
@@ -152,6 +321,7 @@
   </div>
 </div>
 
+  
 
 
 <!-- 
@@ -208,7 +378,7 @@
   <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 </p>
 
-  <script src="/js/foundation.min.js"></script>
+  <script src="/js/foundation.js"></script>
   <script>
     $(document).foundation();
   </script>

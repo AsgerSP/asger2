@@ -12,12 +12,11 @@ layout: default
 
     {% for post in site.posts limit:1 %}
   
-    <div class="callout">
-    
-      <div class="row" data-equalizer>
+    <div class="row">
+        <div class="columns large-12">
 
-   
-        
+        <div class="callout">
+            <div class="row">
         <!-- <div class="columns medium-12" style="border: 1px solid #466d98;" style="margin: 1.25rem auto"> -->
           
         <div class="columns medium-6">
@@ -32,30 +31,35 @@ layout: default
 
         </div>
         <div class="columns medium-6">
-            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{% include D3/example.html %}</a>
 
 
         <!-- </div> -->
       </div>
     </div>
-    </div>
-
+  </div>
+  </div>
+</div>
+ 
+    
     {% endfor %}
 
     <h1>Recent Posts</h1>
 
-{% for post in site.posts offset:1 limit:2 %}
+{% for post in site.posts offset:1 limit:3 %}
 
-<div class="row" data-equalizer>
+<div class="row">
+<!-- <div class="row" data-equalizer> -->
 <div class="columns medium-6">
 
-<div class="callout" data-equalizer-watch>
+<div class="callout">
+<!-- <div class="callout" data-equalizer-watch> -->
     
     <div class="row">
          
       <!-- <div class="columns medium-12" style="border: 1px solid #466d98;" style="margin: 1.25rem auto"> -->
         
-      <div class="columns medium-6">
+      <div class="columns large-12">
           <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
   
           <h1>
@@ -66,7 +70,7 @@ layout: default
           </h3>
 
       </div>
-      <div class="columns medium-6">
+      <div class="columns large-12">
           <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
 
 
@@ -77,6 +81,7 @@ layout: default
   </div>
 </div>
 
+  
 {% endfor %}
 
 <!-- 

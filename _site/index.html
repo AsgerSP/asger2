@@ -14,72 +14,130 @@
   <link rel="canonical" href="http://localhost:4000/">
   <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
   <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
-  <script type="text/javascript" src="/js/d3.min.js"></script>
+  <!-- <script type="text/javascript" src="/js/d3.min.js"></script> -->
 </head>
 
 
   <body>
 
     <header>
-  <div id="header-d3">
+  
     <div class="row">
-      <div class="columns medium-4">
-        <p>This is some text</p>
-        <p>This is something else</p>
+      <div class="column align-self-bootm medium-4">
+This is some text
+        
+       
       </div>
       <div class="columns medium-8">
   
       <a id="include-d3"><!DOCTYPE html>
 <meta charset="utf-8">
-<canvas width="1000" height="200"></canvas>
+<canvas width="200" height="200"></canvas>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
+
+var n = 20;
+
+var nodes = d3.range(n * n).map(function(i) {
+  return {
+    index: i
+  };
+});
+
+var links = [];
+
+for (var y = 0; y < n; ++y) {
+  for (var x = 0; x < n; ++x) {
+    if (y > 0) links.push({source: (y - 1) * n + x, target: y * n + x});
+    if (x > 0) links.push({source: y * n + (x - 1), target: y * n + x});
+  }
+}
+
+var simulation = d3.forceSimulation(nodes)
+    .force("charge", d3.forceManyBody().strength(-30))
+    .force("link", d3.forceLink(links).strength(1).distance(20).iterations(10))
+    .on("tick", ticked);
 
 var canvas = document.querySelector("canvas"),
     context = canvas.getContext("2d"),
     width = canvas.width,
-    height = canvas.height,
-    tau = 2 * Math.PI;
-    
-var nodes = d3.range(100).map(function(i) {
-  return {
-    r: Math.random() * 14 + 4
-  };
-});
+    height = canvas.height;
 
-var simulation = d3.forceSimulation(nodes)
-    .velocityDecay(0.2)
-    .force("x", d3.forceX().strength(0.002))
-    .force("y", d3.forceY().strength(0.002))
-    .force("collide", d3.forceCollide().radius(function(d) { return d.r + 0.5; }).iterations(2))
-    .on("tick", ticked);
+d3.select(canvas)
+    .call(d3.drag()
+        .container(canvas)
+        .subject(dragsubject)
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
 
 function ticked() {
   context.clearRect(0, 0, width, height);
   context.save();
-  context.translate(width / 2, height / 2);
+  context.translate(width / 4, height / 4);
 
   context.beginPath();
-  nodes.forEach(function(d) {
-    context.moveTo(d.x + d.r, d.y);
-    context.arc(d.x, d.y, d.r, 0, tau);
-  });
-  context.fillStyle = "#ddd";
+  links.forEach(drawLink);
+  context.strokeStyle = "#aaa";
+  context.stroke();
+
+  context.beginPath();
+  nodes.forEach(drawNode);
   context.fill();
-  context.strokeStyle = "#333";
+  context.strokeStyle = "#fff";
   context.stroke();
 
   context.restore();
 }
 
-</script></a>
+function dragsubject() {
+  return simulation.find(d3.event.x - width / 4, d3.event.y - height / 4);
+}
+
+function dragstarted() {
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d3.event.subject.fx = d3.event.subject.x;
+  d3.event.subject.fy = d3.event.subject.y;
+}
+
+function dragged() {
+  d3.event.subject.fx = d3.event.x;
+  d3.event.subject.fy = d3.event.y;
+}
+
+function dragended() {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d3.event.subject.fx = null;
+  d3.event.subject.fy = null;
+}
+
+function drawLink(d) {
+  context.moveTo(d.source.x, d.source.y);
+  context.lineTo(d.target.x, d.target.y);
+}
+
+function drawNode(d) {
+  context.moveTo(d.x + 3, d.y);
+  context.arc(d.x, d.y, 3, 0, 2 * Math.PI);
+}
+
+</script>
+</a>
       </div>
     </div>
 
-  <div class="top-bar">
+
+    
+
+    <div class="title-bar" data-responsive-toggle="responsive-menu" data-hide-for="medium" >
+      <button class="menu-icon" type="button" data-toggle="responsive-menu"></button>
+      <div class="title-bar-title">ST</div>
+    </div>
+    
+  <div class="top-bar" id="responsive-menu">
     <div class="top-bar-left">
       <ul class="menu">
-      <li class="menu-text">AproprosA</li>
+      <li class="menu-text">Site title</li>
       </ul>
     </div>
     
@@ -94,7 +152,9 @@ function ticked() {
         </ul>
     </div>
   </div>
-</div>
+
+
+
 </header>
 
       <main>
@@ -104,11 +164,9 @@ function ticked() {
             
                   <div class="home">
 
-  <h1 class="page-heading">Posts</h1>
+  <h1 class="page-heading">Nyeste</h1>
 
   <ul class="post-list">
-
-      <h1>Latest Post</h1>
 
     
   
@@ -131,111 +189,91 @@ function ticked() {
 
         </div>
         <div class="columns medium-6">
-            <a class="post-link" href="/2016/12/23/lorem-ipsum-est.html"><div id="subdivision">
-    <input type="range" min="1" max="12" value="8">
-    <output name="subdivision"></output>
-  </div>
-  <style>
-  
-  #subdivision {
-    position: auto;
-    top: 20px;
-    left: 20px;
-  }
-  
-  #subdivision input {
-    position: auto;
-    width: 200px;
-  }
-  
-  </style>
-  
-  <script src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="http://bl.ocks.org/mbostock/raw/3057239/d3.geodesic.min.js"></script>
-  
-  
-  
-  <script>
-  
-  var width = 100,
-      height = 50;
-  
-  var velocity = [.010, .005],
-      t0 = Date.now();
-  
-  var projection = d3.geo.orthographic()
-      .scale(height / 2 - 10);
-  
-  var canvas = d3.select("#subdivision").append("canvas")
-      .attr("width", width)
-      .attr("height", height);
-  
-  var context = canvas.node().getContext("2d");
-  
-  context.strokeStyle = "#000";
-  context.lineWidth = .5;
-  
-  var faces;
-  
-  var output = d3.select("output");
-  
-  var input = d3.select("input")
-      .on("input", function() { geodesic(+this.value); })
-      .on("change", function() { geodesic(+this.value); })
-      .each(function() { geodesic(+this.value); });
-  
-  d3.timer(function() {
-    var time = Date.now() - t0;
-    projection.rotate([time * velocity[0], time * velocity[1]]);
-    redraw();
-  });
-  
-  function redraw() {
-    context.clearRect(0, 0, width, height);
-  
-    faces.forEach(function(d) {
-      d.polygon[0] = projection(d[0]);
-      d.polygon[1] = projection(d[1]);
-      d.polygon[2] = projection(d[2]);
-      if (d.visible = d.polygon.area() > 0) {
-        context.fillStyle = d.fill;
-        context.beginPath();
-        drawTriangle(d.polygon);
-        context.fill();
-      }
-    });
-  
+            <a class="post-link" href="/2016/12/23/lorem-ipsum-est.html"><!DOCTYPE html>
+<meta charset="utf-8">
+<canvas width="425" height="230"></canvas>
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script>
+
+var canvas = d3.select("canvas"),
+    context = canvas.node().getContext("2d"),
+    width = canvas.property("width"),
+    height = canvas.property("height"),
+    radius = 32;
+
+var circles = d3.range(20).map(function(i) {
+  return {
+    index: i,
+    x: Math.round(Math.random() * (width - radius * 2) + radius),
+    y: Math.round(Math.random() * (height - radius * 2) + radius)
+  };
+});
+
+var color = d3.scaleOrdinal()
+    .range(d3.schemeCategory20);
+
+render();
+
+canvas.call(d3.drag()
+    .subject(dragsubject)
+    .on("start", dragstarted)
+    .on("drag", dragged)
+    .on("end", dragended)
+    .on("start.render drag.render end.render", render));
+
+function render() {
+  context.clearRect(0, 0, width, height);
+  for (var i = 0, n = circles.length, circle; i < n; ++i) {
+    circle = circles[i];
     context.beginPath();
-    faces.forEach(function(d) {
-      if (d.visible) {
-        drawTriangle(d.polygon);
-      }
-    });
-    context.stroke();
+    context.moveTo(circle.x + radius, circle.y);
+    context.arc(circle.x, circle.y, radius, 0, 2 * Math.PI);
+    context.fillStyle = color(circle.index);
+    context.fill();
+    if (circle.active) {
+      context.lineWidth = 2;
+      context.stroke();
+    }
   }
-  
-  function drawTriangle(triangle) {
-    context.moveTo(triangle[0][0], triangle[0][1]);
-    context.lineTo(triangle[1][0], triangle[1][1]);
-    context.lineTo(triangle[2][0], triangle[2][1]);
-    context.closePath();
+}
+
+function dragsubject() {
+  var i = 0,
+      n = circles.length,
+      dx,
+      dy,
+      d2,
+      s2 = radius * radius * 4, // Double the radius.
+      circle,
+      subject;
+
+  for (i = 0; i < n; ++i) {
+    circle = circles[i];
+    dx = d3.event.x - circle.x;
+    dy = d3.event.y - circle.y;
+    d2 = dx * dx + dy * dy;
+    if (d2 < s2) subject = circle, s2 = d2;
   }
-  
-  function geodesic(subdivision) {
-    output.text(subdivision);
-  
-    faces = d3.geodesic.polygons(subdivision).map(function(d) {
-      d = d.coordinates[0];
-      d.pop(); // use an open polygon
-      d.fill = d3.hsl(d[0][0], 1, .5) + "";
-      d.polygon = d3.geom.polygon(d.map(projection));
-      return d;
-    });
-  
-    redraw();
-  }
-  
-  </script></a>
+
+  return subject;
+}
+
+function dragstarted() {
+  circles.splice(circles.indexOf(d3.event.subject), 1);
+  circles.push(d3.event.subject);
+  d3.event.subject.active = true;
+}
+
+function dragged() {
+  d3.event.subject.x = d3.event.x;
+  d3.event.subject.y = d3.event.y;
+}
+
+function dragended() {
+  d3.event.subject.active = false;
+}
+
+</script></a>
 
 
         <!-- </div> -->
@@ -248,7 +286,7 @@ function ticked() {
     
     
 
-    <h1>Recent Posts</h1>
+    <h1>Tidligere</h1>
 
 
 

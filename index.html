@@ -4,11 +4,9 @@ layout: default
 
 <div class="home">
 
-  <h1 class="page-heading">Posts</h1>
+  <h1 class="page-heading">Nyeste</h1>
 
   <ul class="post-list">
-
-      <h1>Latest Post</h1>
 
     {% for post in site.posts limit:1 %}
   
@@ -31,7 +29,7 @@ layout: default
 
         </div>
         <div class="columns medium-6">
-            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{% include D3/example.html %}</a>
+            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{% include D3/circle-dragging-3.html %}</a>
 
 
         <!-- </div> -->
@@ -44,7 +42,7 @@ layout: default
     
     {% endfor %}
 
-    <h1>Recent Posts</h1>
+    <h1>Tidligere</h1>
 
 {% for post in site.posts offset:1 limit:3 %}
 

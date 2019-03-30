@@ -1,32 +1,16 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+var graphSelector = "[data-d3-graph='graph-2']";
 
-.links line {
-  stroke: #aaa;
-}
-
-.nodes circle {
-  pointer-events: all;
-  stroke: none;
-  stroke-width: 40px;
-}
-
-</style>
-<svg width="960" height="600"></svg>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script>
-
-var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
+var svg = d3.select(graphSelector + " svg"),
+  bbox = svg.node().getBoundingClientRect(),
+    width = bbox.width,
+    height = bbox.heigh
 
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-d3.json("_includes/D3/force-dragging-graph-data.json", function(error, graph) {
+d3.json("/js/d3-graphs/data/test.json", function(error, graph) {
   if (error) throw error;
 
   var link = svg.append("g")
@@ -85,7 +69,3 @@ function dragended(d) {
   d.fx = null;
   d.fy = null;
 }
-
-
-
-</script>

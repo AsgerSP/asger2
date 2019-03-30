@@ -11,7 +11,14 @@ $success-color: #3adb76;
 @include foundation-everything;
 
 // ------------
-// header
+// General
+// ----------
+* {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+// ------------
+// Header
 // ----------
 
 .top-bar ul li>a {
@@ -72,3 +79,7 @@ footer {
 // #rightcallout.columns {
 //   padding-left: 0;  
 // }
+
+div[data-d3-graph] {
+  border: 1px solid brown;
+}

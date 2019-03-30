@@ -14,6 +14,8 @@
   <link rel="canonical" href="http://localhost:4000/">
   <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
   <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+
   <!-- <script type="text/javascript" src="/js/d3.min.js"></script> -->
 </head>
 
@@ -23,108 +25,50 @@
     <header>
   
     <div class="row">
-      <div class="column align-self-bootm medium-4">
+      <div class="column align-self-bottom medium-4">
 This is some text
         
        
       </div>
       <div class="columns medium-8">
-  
-      <a id="include-d3"><!DOCTYPE html>
-<meta charset="utf-8">
-<canvas width="200" height="200"></canvas>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script>
 
-var n = 20;
+<!--   
+        <a><div id="visual"></div>
 
-var nodes = d3.range(n * n).map(function(i) {
-  return {
-    index: i
+<script type="module">
+
+  // NOTEBOOK CONFIGURATION
+  import notebook from "https://api.observablehq.com/d/951e5ee7317bb029.js";
+
+  const target = document.querySelector("#visual");
+  const renders = {
+    "chart": "div",
   };
-});
 
-var links = [];
 
-for (var y = 0; y < n; ++y) {
-  for (var x = 0; x < n; ++x) {
-    if (y > 0) links.push({source: (y - 1) * n + x, target: y * n + x});
-    if (x > 0) links.push({source: y * n + (x - 1), target: y * n + x});
+  // BOILERPLATE
+  import {Inspector, Runtime} from "https://unpkg.com/@observablehq/notebook-runtime@1.2.0?module";
+  for (let i in renders) {
+    let s = renders[i], a = s.match(/^\w+/);
+    if (a) {
+      renders[i] = document.createElement(a[0]);
+      target.appendChild(renders[i]);
+      if (a = s.match(/\.(\w+)$/))
+        renders[i].className = a[1]; 
+    }
+    else
+      renders[i] = document.querySelector(renders[i]);
   }
-}
-
-var simulation = d3.forceSimulation(nodes)
-    .force("charge", d3.forceManyBody().strength(-30))
-    .force("link", d3.forceLink(links).strength(1).distance(20).iterations(10))
-    .on("tick", ticked);
-
-var canvas = document.querySelector("canvas"),
-    context = canvas.getContext("2d"),
-    width = canvas.width,
-    height = canvas.height;
-
-d3.select(canvas)
-    .call(d3.drag()
-        .container(canvas)
-        .subject(dragsubject)
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended));
-
-function ticked() {
-  context.clearRect(0, 0, width, height);
-  context.save();
-  context.translate(width / 4, height / 4);
-
-  context.beginPath();
-  links.forEach(drawLink);
-  context.strokeStyle = "#aaa";
-  context.stroke();
-
-  context.beginPath();
-  nodes.forEach(drawNode);
-  context.fill();
-  context.strokeStyle = "#fff";
-  context.stroke();
-
-  context.restore();
-}
-
-function dragsubject() {
-  return simulation.find(d3.event.x - width / 4, d3.event.y - height / 4);
-}
-
-function dragstarted() {
-  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-  d3.event.subject.fx = d3.event.subject.x;
-  d3.event.subject.fy = d3.event.subject.y;
-}
-
-function dragged() {
-  d3.event.subject.fx = d3.event.x;
-  d3.event.subject.fy = d3.event.y;
-}
-
-function dragended() {
-  if (!d3.event.active) simulation.alphaTarget(0);
-  d3.event.subject.fx = null;
-  d3.event.subject.fy = null;
-}
-
-function drawLink(d) {
-  context.moveTo(d.source.x, d.source.y);
-  context.lineTo(d.target.x, d.target.y);
-}
-
-function drawNode(d) {
-  context.moveTo(d.x + 3, d.y);
-  context.arc(d.x, d.y, 3, 0, 2 * Math.PI);
-}
-
-</script>
-</a>
-      </div>
-    </div>
+  Runtime.load(notebook, (variable) => {
+    if (renders[variable.name]) {
+      return new Inspector(renders[variable.name]);
+    } else {
+      // return true; // uncomment to run hidden cells
+    }
+  });
+</script></a> -->
+</div>
+</div>
 
 
     
@@ -189,90 +133,39 @@ function drawNode(d) {
 
         </div>
         <div class="columns medium-6">
-            <a class="post-link" href="/2016/12/23/lorem-ipsum-est.html"><!DOCTYPE html>
-<meta charset="utf-8">
-<canvas width="425" height="230"></canvas>
-<script src="//d3js.org/d3.v4.min.js"></script>
-<script>
+            <a class="post-link" href="/2016/12/23/lorem-ipsum-est.html"><div id="visual"></div>
 
-var canvas = d3.select("canvas"),
-    context = canvas.node().getContext("2d"),
-    width = canvas.property("width"),
-    height = canvas.property("height"),
-    radius = 32;
+<script type="module">
 
-var circles = d3.range(20).map(function(i) {
-  return {
-    index: i,
-    x: Math.round(Math.random() * (width - radius * 2) + radius),
-    y: Math.round(Math.random() * (height - radius * 2) + radius)
+  // NOTEBOOK CONFIGURATION
+  import notebook from "https://api.observablehq.com/d/951e5ee7317bb029.js";
+
+  const target = document.querySelector("#visual");
+  const renders = {
+    "chart": "div",
   };
-});
 
-var color = d3.scaleOrdinal()
-    .range(d3.schemeCategory20);
 
-render();
-
-canvas.call(d3.drag()
-    .subject(dragsubject)
-    .on("start", dragstarted)
-    .on("drag", dragged)
-    .on("end", dragended)
-    .on("start.render drag.render end.render", render));
-
-function render() {
-  context.clearRect(0, 0, width, height);
-  for (var i = 0, n = circles.length, circle; i < n; ++i) {
-    circle = circles[i];
-    context.beginPath();
-    context.moveTo(circle.x + radius, circle.y);
-    context.arc(circle.x, circle.y, radius, 0, 2 * Math.PI);
-    context.fillStyle = color(circle.index);
-    context.fill();
-    if (circle.active) {
-      context.lineWidth = 2;
-      context.stroke();
+  // BOILERPLATE
+  import {Inspector, Runtime} from "https://unpkg.com/@observablehq/notebook-runtime@1.2.0?module";
+  for (let i in renders) {
+    let s = renders[i], a = s.match(/^\w+/);
+    if (a) {
+      renders[i] = document.createElement(a[0]);
+      target.appendChild(renders[i]);
+      if (a = s.match(/\.(\w+)$/))
+        renders[i].className = a[1]; 
     }
+    else
+      renders[i] = document.querySelector(renders[i]);
   }
-}
-
-function dragsubject() {
-  var i = 0,
-      n = circles.length,
-      dx,
-      dy,
-      d2,
-      s2 = radius * radius * 4, // Double the radius.
-      circle,
-      subject;
-
-  for (i = 0; i < n; ++i) {
-    circle = circles[i];
-    dx = d3.event.x - circle.x;
-    dy = d3.event.y - circle.y;
-    d2 = dx * dx + dy * dy;
-    if (d2 < s2) subject = circle, s2 = d2;
-  }
-
-  return subject;
-}
-
-function dragstarted() {
-  circles.splice(circles.indexOf(d3.event.subject), 1);
-  circles.push(d3.event.subject);
-  d3.event.subject.active = true;
-}
-
-function dragged() {
-  d3.event.subject.x = d3.event.x;
-  d3.event.subject.y = d3.event.y;
-}
-
-function dragended() {
-  d3.event.subject.active = false;
-}
-
+  Runtime.load(notebook, (variable) => {
+    if (renders[variable.name]) {
+      return new Inspector(renders[variable.name]);
+    } else {
+      // return true; // uncomment to run hidden cells
+    }
+  });
 </script></a>
 
 
@@ -417,6 +310,7 @@ function dragended() {
 </p>
 
   <script src="/js/foundation.js"></script>
+  <script src="/js/d3-loader.js"></script>
   <script>
     $(document).foundation();
   </script>

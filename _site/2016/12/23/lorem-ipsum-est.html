@@ -13,6 +13,8 @@
   <link rel="canonical" href="http://localhost:4000/2016/12/23/lorem-ipsum-est.html">
   <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
   <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+
   <!-- <script type="text/javascript" src="/js/d3.min.js"></script> -->
 </head>
 
@@ -22,108 +24,50 @@
     <header>
   
     <div class="row">
-      <div class="column align-self-bootm medium-4">
+      <div class="column align-self-bottom medium-4">
 This is some text
         
        
       </div>
       <div class="columns medium-8">
-  
-      <a id="include-d3"><!DOCTYPE html>
-<meta charset="utf-8">
-<canvas width="200" height="200"></canvas>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script>
 
-var n = 20;
+<!--   
+        <a><div id="visual"></div>
 
-var nodes = d3.range(n * n).map(function(i) {
-  return {
-    index: i
+<script type="module">
+
+  // NOTEBOOK CONFIGURATION
+  import notebook from "https://api.observablehq.com/d/951e5ee7317bb029.js";
+
+  const target = document.querySelector("#visual");
+  const renders = {
+    "chart": "div",
   };
-});
 
-var links = [];
 
-for (var y = 0; y < n; ++y) {
-  for (var x = 0; x < n; ++x) {
-    if (y > 0) links.push({source: (y - 1) * n + x, target: y * n + x});
-    if (x > 0) links.push({source: y * n + (x - 1), target: y * n + x});
+  // BOILERPLATE
+  import {Inspector, Runtime} from "https://unpkg.com/@observablehq/notebook-runtime@1.2.0?module";
+  for (let i in renders) {
+    let s = renders[i], a = s.match(/^\w+/);
+    if (a) {
+      renders[i] = document.createElement(a[0]);
+      target.appendChild(renders[i]);
+      if (a = s.match(/\.(\w+)$/))
+        renders[i].className = a[1]; 
+    }
+    else
+      renders[i] = document.querySelector(renders[i]);
   }
-}
-
-var simulation = d3.forceSimulation(nodes)
-    .force("charge", d3.forceManyBody().strength(-30))
-    .force("link", d3.forceLink(links).strength(1).distance(20).iterations(10))
-    .on("tick", ticked);
-
-var canvas = document.querySelector("canvas"),
-    context = canvas.getContext("2d"),
-    width = canvas.width,
-    height = canvas.height;
-
-d3.select(canvas)
-    .call(d3.drag()
-        .container(canvas)
-        .subject(dragsubject)
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended));
-
-function ticked() {
-  context.clearRect(0, 0, width, height);
-  context.save();
-  context.translate(width / 4, height / 4);
-
-  context.beginPath();
-  links.forEach(drawLink);
-  context.strokeStyle = "#aaa";
-  context.stroke();
-
-  context.beginPath();
-  nodes.forEach(drawNode);
-  context.fill();
-  context.strokeStyle = "#fff";
-  context.stroke();
-
-  context.restore();
-}
-
-function dragsubject() {
-  return simulation.find(d3.event.x - width / 4, d3.event.y - height / 4);
-}
-
-function dragstarted() {
-  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-  d3.event.subject.fx = d3.event.subject.x;
-  d3.event.subject.fy = d3.event.subject.y;
-}
-
-function dragged() {
-  d3.event.subject.fx = d3.event.x;
-  d3.event.subject.fy = d3.event.y;
-}
-
-function dragended() {
-  if (!d3.event.active) simulation.alphaTarget(0);
-  d3.event.subject.fx = null;
-  d3.event.subject.fy = null;
-}
-
-function drawLink(d) {
-  context.moveTo(d.source.x, d.source.y);
-  context.lineTo(d.target.x, d.target.y);
-}
-
-function drawNode(d) {
-  context.moveTo(d.x + 3, d.y);
-  context.arc(d.x, d.y, 3, 0, 2 * Math.PI);
-}
-
-</script>
-</a>
-      </div>
-    </div>
+  Runtime.load(notebook, (variable) => {
+    if (renders[variable.name]) {
+      return new Inspector(renders[variable.name]);
+    } else {
+      // return true; // uncomment to run hidden cells
+    }
+  });
+</script></a> -->
+</div>
+</div>
 
 
     
@@ -172,6 +116,12 @@ function drawNode(d) {
   <div class="post-content" itemprop="articleBody">
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est.</p>
 
+<div data-d3-graph="graph-1"></div>
+
+<p>test</p>
+
+<div data-d3-graph="graph-2"></div>
+
 <p>Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi. Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis. Quisque mi metus, ornare sit amet fermentum et, tincidunt et orci. Fusce eget orci a orci congue vestibulum. Ut dolor diam, elementum et vestibulum eu, porttitor vel elit. Curabitur venenatis pulvinar tellus gravida ornare. Sed et erat faucibus nunc euismod ultricies ut id justo. Nullam cursus suscipit nisi, et ultrices justo sodales nec. Fusce venenatis facilisis lectus ac semper. Aliquam at massa ipsum. Quisque bibendum purus convallis nulla ultrices ultricies. Nullam aliquam, mi eu aliquam tincidunt, purus velit laoreet tortor, viverra pretium nisi quam vitae mi. Fusce vel volutpat elit. Nam sagittis nisi dui.</p>
 
 <p>Suspendisse lectus leo, consectetur in tempor sit amet, placerat quis neque. Etiam luctus porttitor lorem, sed suscipit est rutrum non. Curabitur lobortis nisl a enim congue semper. Aenean commodo ultrices imperdiet. Vestibulum ut justo vel sapien venenatis tincidunt. Phasellus eget dolor sit amet ipsum dapibus condimentum vitae quis lectus. Aliquam ut massa in turpis dapibus convallis. Praesent elit lacus, vestibulum at malesuada et, ornare et est. Ut augue nunc, sodales ut euismod non, adipiscing vitae orci. Mauris ut placerat justo. Mauris in ultricies enim. Quisque nec est eleifend nulla ultrices egestas quis ut quam. Donec sollicitudin lectus a mauris pulvinar id aliquam urna cursus. Cras quis ligula sem, vel elementum mi. Phasellus non ullamcorper urna.</p>
@@ -187,7 +137,13 @@ function drawNode(d) {
       
           
           <div class="columns medium-2">
-            <h1>2 columns</h1>
+            
+<h1>
+   asdfadsf
+  </h1>
+<h2>
+  <a class="post-link" href=""></a>
+</h2>
           </div>
           
           </div>
@@ -202,6 +158,7 @@ function drawNode(d) {
 </p>
 
   <script src="/js/foundation.js"></script>
+  <script src="/js/d3-loader.js"></script>
   <script>
     $(document).foundation();
   </script>

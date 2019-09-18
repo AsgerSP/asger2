@@ -1,45 +1,46 @@
 <header>
-  
+
+  <div id="top-header">   
+  <div id="callout-large" class="callout large-primary" >
     <div class="row">
-      <div class="column align-self-bottom medium-4">
-This is some text
-        
-       
-      </div>
-      <div class="columns medium-8">
+      <div class="columns medium-4" align-text="bottom">
+               En datablog om alt og intet
+    </div>
+    <div class="columns medium-8">
 
-<!--   
-        <a>{% include D3/visual.html %}</a> -->
-</div>
-</div>
-
-
-    
-
-    <div class="title-bar" data-responsive-toggle="responsive-menu" data-hide-for="medium" >
-      <button class="menu-icon" type="button" data-toggle="responsive-menu"></button>
-      <div class="title-bar-title">ST</div>
+      <div>{% include D3/header.d3.html %}</div>        
+    </div>
+    </div>
     </div>
     
-  <div class="top-bar" id="responsive-menu">
-    <div class="top-bar-left">
-      <ul class="menu">
-      <li class="menu-text">Site title</li>
-      </ul>
-    </div>
-    
-    <div class="top-bar-right">
-        <ul class="menu">
-        <li>
-          <a href=#>Blog</a>
-        </li>  
-        <li>
-          <a href=#>Omkring</a>
-        </li>  
-        </ul>
-    </div>
+  
+  <!-- To make the Header sticky  -->
+  <div id="menubar" >
+  
+  <!-- To make the Header responsive -->
+  <div class="title-bar" data-responsive-toggle="responsive-menu" data-hide-for="medium" style="width: 100%">
+       <button class="menu-icon" type="button" data-toggle="responsive-menu"></button>
+    <div class="title-bar-title">DATA <br> &#8704;T</div>
   </div>
-
-
+  
+<div class="top-bar" id="responsive-menu">
+  <div class="top-bar-left">
+    <ul class="menu">
+    <li class="menu-text">Data <br> T</li>
+    </ul>
+  </div>
+  
+  <div class="top-bar-right">
+      <ul class="menu">
+      <li>
+        <a href=#>Blog</a>
+      </li>  
+      <li>
+        <a href=#>Omkring</a>
+      </li>  
+      </ul>
+  </div>
+</div>
+</div>
 
 </header>

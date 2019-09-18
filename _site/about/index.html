@@ -12,7 +12,7 @@
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="http://localhost:4000/about/">
-  <link rel="alternate" type="application/rss+xml" title="Your awesome title" href="http://localhost:4000/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Datafortæl - en datablog" href="http://localhost:4000/feed.xml">
   <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
 
@@ -23,88 +23,100 @@
   <body>
 
     <header>
-  
+
+  <div id="top-header">   
+  <div id="callout-large" class="callout large-primary" >
     <div class="row">
-      <div class="column align-self-bottom medium-4">
-This is some text
-        
-       
-      </div>
-      <div class="columns medium-8">
+      <div class="columns medium-4" align-text="bottom">
+               En datablog om alt og intet
+    </div>
+    <div class="columns medium-8">
 
-<!--   
-        <a><div id="visual"></div>
+      <div><!DOCTYPE html>
+<meta charset="utf-8">
+<canvas width="500" height="300"></canvas>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
 
-<script type="module">
-
-  // NOTEBOOK CONFIGURATION
-  import notebook from "https://api.observablehq.com/d/951e5ee7317bb029.js";
-
-  const target = document.querySelector("#visual");
-  const renders = {
-    "chart": "div",
+var canvas = document.querySelector("canvas"),
+    context = canvas.getContext("2d"),
+    width = canvas.width,
+    height = canvas.height,
+    tau = 2 * Math.PI;
+    
+var nodes = d3.range(100).map(function(i) {
+  return {
+    r: Math.random() * 25 + 4
   };
+});
 
+var simulation = d3.forceSimulation(nodes)
+    .velocityDecay(0.2)
+    .force("x", d3.forceX().strength(0.002))
+    .force("y", d3.forceY().strength(0.002))
+    .force("collide", d3.forceCollide().radius(function(d) { return d.r + 0.5; }).iterations(2))
+    .on("tick", ticked);
 
-  // BOILERPLATE
-  import {Inspector, Runtime} from "https://unpkg.com/@observablehq/notebook-runtime@1.2.0?module";
-  for (let i in renders) {
-    let s = renders[i], a = s.match(/^\w+/);
-    if (a) {
-      renders[i] = document.createElement(a[0]);
-      target.appendChild(renders[i]);
-      if (a = s.match(/\.(\w+)$/))
-        renders[i].className = a[1]; 
-    }
-    else
-      renders[i] = document.querySelector(renders[i]);
-  }
-  Runtime.load(notebook, (variable) => {
-    if (renders[variable.name]) {
-      return new Inspector(renders[variable.name]);
-    } else {
-      // return true; // uncomment to run hidden cells
-    }
+function ticked() {
+  context.clearRect(0, 0, width, height);
+  context.save();
+  context.translate(width / 2, height / 2);
+
+  context.beginPath();
+  nodes.forEach(function(d) {
+    context.moveTo(d.x + d.r, d.y);
+    context.arc(d.x, d.y, d.r, 0, tau);
   });
-</script></a> -->
-</div>
-</div>
+  context.fillStyle = "#ddd";
+  context.fill();
+  context.strokeStyle = "#333";
+  context.stroke();
 
+  context.restore();
+}
 
-    
-
-    <div class="title-bar" data-responsive-toggle="responsive-menu" data-hide-for="medium" >
-      <button class="menu-icon" type="button" data-toggle="responsive-menu"></button>
-      <div class="title-bar-title">ST</div>
+</script></div>        
+    </div>
+    </div>
     </div>
     
-  <div class="top-bar" id="responsive-menu">
-    <div class="top-bar-left">
-      <ul class="menu">
-      <li class="menu-text">Site title</li>
-      </ul>
-    </div>
-    
-    <div class="top-bar-right">
-        <ul class="menu">
-        <li>
-          <a href=#>Blog</a>
-        </li>  
-        <li>
-          <a href=#>Omkring</a>
-        </li>  
-        </ul>
-    </div>
+  
+  <!-- To make the Header sticky  -->
+  <div id="menubar" >
+  
+  <!-- To make the Header responsive -->
+  <div class="title-bar" data-responsive-toggle="responsive-menu" data-hide-for="medium" style="width: 100%">
+       <button class="menu-icon" type="button" data-toggle="responsive-menu"></button>
+    <div class="title-bar-title">DATA <br> &#8704;T</div>
   </div>
-
-
+  
+<div class="top-bar" id="responsive-menu">
+  <div class="top-bar-left">
+    <ul class="menu">
+    <li class="menu-text">Data <br> T</li>
+    </ul>
+  </div>
+  
+  <div class="top-bar-right">
+      <ul class="menu">
+      <li>
+        <a href=#>Blog</a>
+      </li>  
+      <li>
+        <a href=#>Omkring</a>
+      </li>  
+      </ul>
+  </div>
+</div>
+</div>
 
 </header>
+
 
       <main>
           <div class="row">
               
-            <div class="columns medium-10">
+            <div class="columns medium-9">
             
                   <article class="post">
 
@@ -116,16 +128,16 @@ This is some text
     <p>This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at <a href="http://jekyllrb.com/">jekyllrb.com</a></p>
 
 <p>You can find the source code for the Jekyll new theme at:
-<a href="https://github.com/jglovier"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"></path></svg>
-</span><span class="username">jglovier</span></a>
- /
-<a href="https://github.com/jglovier/jekyll-new">jekyll-new</a></p>
+<a href="https://github.com/jglovier"><span class="icon icon--github">&lt;svg role=”img” viewBox=”0 0 24 24”xmlns=”http://www.w3.org/2000/svg”&gt;<title>Github icon</title><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"></path>&lt;/svg&gt;
+</span><span class="username">jglovier</span></a></p>
 
-<p>You can find the source code for Jekyll at
-<a href="https://github.com/jekyll"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"></path></svg>
-</span><span class="username">jekyll</span></a>
- /
-<a href="https://github.com/jekyll/jekyll">jekyll</a></p>
+<p><a href="https://github.com/jglovier/jekyll-new">jekyll-new</a></p>
+
+<p>You can find the source code for Jekyll at 
+<a href="https://github.com/jekyll"><span class="icon icon--github">&lt;svg role=”img” viewBox=”0 0 24 24”xmlns=”http://www.w3.org/2000/svg”&gt;<title>Github icon</title><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"></path>&lt;/svg&gt;
+</span><span class="username">jekyll</span></a></p>
+
+<p><a href="https://github.com/jekyll/jekyll">jekyll</a></p>
 
   </div>
 
@@ -135,8 +147,40 @@ This is some text
             </div>
         
             
-            <div class="columns medium-2">
-              <h1>1 column</h1>
+            <div class="columns medium-3">
+              <h3>Velkommen til</h3>
+
+<div class="sharebuttons">
+    <hr />
+    <ul>
+      <li>
+        <p class="sharetitle"> Share this: </p>
+      </li>
+      <li class="twitter">
+        <a href="https://twitter.com/intent/tweet?via=USERNAME&url=http://localhost:4000/about/&text=About" target="_blank">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Twitter icon</title><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"/></svg>
+        </a>
+      </li>
+      <li class="linkedin">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/about/&title=About" target="_blank">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LinkedIn icon</title><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </li>
+      <li class="facebook">
+        <a href="https://www.facebook.com/shareArticle?mini=true&url=http://localhost:4000/about/&title=About" target="_blank">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Facebook icon</title><path d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z"/></svg>
+        </a>
+      </li>
+      <li class="github">
+        <a href="https://www.github.com/shareArticle?mini=true&url=http://localhost:4000/about/&title=About" target="_blank">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub icon</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+
+
             </div>
             
             </div>
@@ -145,8 +189,8 @@ This is some text
 
     <footer class="site-footer">
 
-  <h2 class="footer-heading">Your awesome title</h2>
-  <p>Your awesome title</p>
+  <h2 class="footer-heading">Datafortæl - en datablog</h2>
+  <p>Datafortæl - en datablog</p>
   <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 </p>
 

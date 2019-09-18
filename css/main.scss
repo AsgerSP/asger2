@@ -6,6 +6,7 @@ $secondary-color:rgb(106,197,244);
 $blackish-color: rgb(9,43,43);
 $dropdownmenu-background: #ffa500;
 $success-color: #3adb76;
+$contrast-color: white;
 
 @import 'foundation';
 @include foundation-everything;
@@ -21,10 +22,39 @@ $success-color: #3adb76;
 // Header
 // ----------
 
-.top-bar ul li>a {
-  color: $blackish-color;
+header {
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
+#top-header {
+   padding-top: 5%;
+  
+}
+
+
+.top-bar ul li>a {
+  color: $blackish-color;
+  color: $contrast-color;
+}
+
+.top-bar {
+  background-color: $blackish-color;
+  color: $contrast-color;
+}
+
+.top-bar ul{
+  background-color: $blackish-color;
+  color: $contrast-color;
+  
+  
+}
+
+#callout-large {
+  margin: 0rem;
+  border-radius: 0rem;
+  padding: 0rem;
+}
 
 //Main//
 
@@ -48,12 +78,11 @@ main {
 
 .callout {
   border-color: $blackish-color; 
-  border-radius: 5px;
+//  border-radius: 5px;
 //   display: block;
 //   height: 150px;
 //   width: 100%;
 }
-
 
 $tooltip-bg: #3adb76;
 
@@ -68,11 +97,6 @@ footer {
   color:$secondary-color;
 }
 
-
-
-
-
-
 // #leftcallout.columns {
 //   padding-right: 0;  
 // }
@@ -82,4 +106,44 @@ footer {
 
 div[data-d3-graph] {
   border: 1px solid brown;
+}
+
+/* Share buttons */
+.sharebuttons {
+  margin: 0 auto 0 auto;
+}
+
+.sharebuttons ul {
+  margin: 20px 0 0 0;
+  text-align: center;
+}
+
+.sharebuttons ul li {
+  display: inline;
+}
+
+.sharebuttons ul li a {
+  text-decoration: none;
+}
+
+.sharebuttons ul li svg {
+  width: 40px;
+  height: 40px;
+}
+
+.sharebuttons .twitter svg {
+  fill: #1DA1F2;
+}
+
+.sharebuttons .facebook svg {
+  fill: #4172B8
+  ;
+}
+
+.sharebuttons .linkedin svg {
+  fill: #0077B5;
+}
+
+.sharebuttons .github svg {
+  fill: #181717;
 }
